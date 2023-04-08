@@ -1,0 +1,89 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+    
+<%@ page isErrorPage="true" %>    
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%> 
+    
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<!-- for Bootstrap CSS -->
+<link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
+
+<title>Save Travels</title>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<h1>Save Travels</h1>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Expense</th>
+						<th>Vendor</th>
+						<th>Amount</th>
+						
+						<!-- <th>Action</th> -->
+						
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach var="expense" items="${burgers}">
+					<tr>
+						<td><c:out value="${burger.name}"/></td>
+						<td><c:out value="${burger.restaurantName}"/></td>
+						<td><c:out value="${burger.rating}"/></td>
+					
+						<!-- Burger Tracker 2 tasks below -->
+					
+						<!-- add another column with "edit" link that shows edit.jsp for selected burger, use id -->
+					
+						<td><a href="/burgers/edit/${burger.id}">edit</a></td>
+					</tr>				
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>
+	
+		<!-- ...and form -->
+	
+		<div class="row">
+			<h2>Add an expense: </h2>
+
+	<!-- ...add model Attribute... -->
+
+			<form:form class="form" action="/" method="post" modelAttribute="burger">
+				<div class="form-group mb-3" >
+			
+				<!-- ...include path attribute. -->
+			
+					<form:label path="name">Expense Name: </form:label>
+				
+					<!-- ...add error tags... -->
+				
+					<form:errors class="text-danger" path="name"/>
+					<form:input class="form-control" type="text" path="name"/>
+				</div>
+				<div class="form-group mb-3">
+					<form:label path="restaurantName">Vendor: </form:label>
+					<form:errors class="text-danger" path="restaurantName"/>
+					<form:input class="form-control" type="text" path="restaurantName"/>
+				</div>
+				<div class="form-group mb-3">
+					<form:label path="rating">Amount: </form:label>
+					<form:errors class="text-danger" path="rating"/>
+					<form:input class="form-control" type="number" path="rating"/>
+				</div>
+				<div class="form-group mb-3">
+					<form:label path="notes">Description: </form:label>
+					<form:errors class="text-danger" path="notes"/>
+					<form:textarea class="form-control" rows="4" cols="50" path="notes"/>
+				</div>
+				<input class="btn btn-primary" type="submit" value="Submit"/>
+			</form:form>
+		</div>
+	</div>
+</body>
+</html>

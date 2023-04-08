@@ -1,0 +1,94 @@
+package com.codingdojo.savetravels.controllers;
+
+import java.util.List;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.codingdojo.savetravels.models.Expense;
+import com.codingdojo.savetravels.services.ExpenseService;
+
+@Controller
+public class ExpenseController {
+	@Autowired ExpenseService expenseService;
+	
+//	Create route in controller to render index.jsp
+	
+	@GetMapping("/expenses")
+	
+//	Add @ModelAttribute annotation and associated syntax to render route, to bind an empty Burger object to JSP form to capture user input
+	
+	public String index(
+			Model model,
+			@ModelAttribute("expense") Expense expense) {
+		
+//		...retrieve all records from database...
+		
+		List<Expense> expenses = expenseService.allExpenses();
+		
+//		...and render them on the page...
+		
+		model.addAttribute("expenses", expenses);
+		return "index.jsp";
+	}
+	
+//	Add POST route to process form and add new burger to database...
+	
+	@PostMapping("/expenses")
+	public String create(
+			
+//			...using @ModelAttribute annotation to receive filled Burger object
+			
+//			...handle validations
+			
+		Model model,
+		@Valid @ModelAttribute("expense") Expense expense,
+		BindingResult result) {
+		if (result.hasErrors()) {
+			List<Expense> expenses = expenseService.allExpenses();
+			model.addAttribute("expenses", expenses);
+			return "index.jsp";
+		} else {
+			expenseService.createExpense(expense);
+			
+//			POST route redirects to render route after creating new burger
+			
+			return "redirect:/expenses";
+		}
+	}
+	
+//	Burger Tracker 2 tasks below
+	
+//	add a route to generate edit.jsp page
+	
+	@RequestMapping("expenses/edit/{id}")
+    public String edit(@PathVariable("id") Long id, Model model) {
+        Expense expense = expenseService.findExpense(id);
+        model.addAttribute("expense", expense);
+        return "edit.jsp";
+    }
+    
+//	add PUT route in controller that will update burger
+	
+    @RequestMapping(value="expenses/{id}", method=RequestMethod.PUT)
+    public String update(@Valid @ModelAttribute("expense") Expense expense, BindingResult result) {
+        if (result.hasErrors()) {
+            return "edit.jsp";
+        } else {
+            expenseService.updateExpense(expense);
+            return "redirect:/expenses";
+        }
+    }
+    
+    
+}

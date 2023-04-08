@@ -1,0 +1,11 @@
+package com.codingdojo.savetravels.controllers;
+
+import org.springframework.stereotype.Controller;
+
+@Controller
+public class ExpenseController {
+	public String index() {
+		return "index.jsp";
+	}
+
+}

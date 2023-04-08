@@ -1,0 +1,7 @@
+package com.codingdojo.savetravels.repositories;
+
+import org.springframework.data.repository.CrudRepository;
+
+public interface ExpenseRepository extends CrudRepository<T, ID> {
+
+}

@@ -1,0 +1,44 @@
+package com.codingdojo.savetravels.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+
+import com.codingdojo.savetravels.models.Expense;
+import com.codingdojo.savetravels.repositories.ExpenseRepository;
+
+@Controller
+public class ExpenseController {
+	
+	@Autowired
+	ExpenseService expenseService;
+	
+//	route that renders index page
+	
+//	@RequestMapping("/expenses")
+//	public String index() {
+//		return "index.jsp";
+//	}
+	@GetMapping("/")
+	
+//	Add @ModelAttribute annotation and associated syntax to render route, to bind an empty Burger object to JSP form to capture user input
+	
+	public String index(
+			Model model,
+			@ModelAttribute("expense") Expense expense) {
+		
+//		...retrieve all records from database...
+		
+		List<Expense> burgers = expenseService.allExpenses();
+		
+//		...and render them on the page...
+		
+		model.addAttribute("expenses", expenses);
+		return "index.jsp";
+	}
+
+}

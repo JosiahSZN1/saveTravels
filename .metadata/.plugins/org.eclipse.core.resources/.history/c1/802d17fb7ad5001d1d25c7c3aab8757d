@@ -1,0 +1,5 @@
+package com.codingdojo.savetravels.services;
+
+public class ExpenseService {
+
+}
